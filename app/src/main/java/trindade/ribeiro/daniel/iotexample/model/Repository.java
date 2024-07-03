@@ -17,10 +17,10 @@ public class Repository {
         this.context = context;
     }
 
-    public boolean setQuantidade(String alimentacao, String h1, String h2, String m1, String m2, String peso) {
+    public boolean setQuantidade(String h1, String h2, String m1, String m2, String q) {
 
         // Cria uma requisição HTTP a ser enviada ao ESP32
-        HttpRequest httpRequest = new HttpRequest("http://" + Config.getESP32Address(context) + "/ajustar_quant_aliment/" + alimentacao + "/" + h1 + "/" + m1 + "/" + "/" + h2 + "/" + m2 + "/" + peso , "GET", "UTF-8");
+        HttpRequest httpRequest = new HttpRequest("http://" + Config.getESP32Address(context) + h1 + "/" + m1 + "/" + h2 + "/" + m2 + "/" + q, "GET", "UTF-8");
 
         String result = "";
         try {

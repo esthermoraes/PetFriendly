@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:gravity="center"
-            android:text="Defina o horário da 1° alimentaçãooo:"
+            android:text="Defina o horário da 1° alimentação:"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -49,7 +49,6 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text=" Hora exibida"
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
@@ -59,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#B55F44"
-                app:srcCompat="@android:drawable/ic_menu_recent_history" />
+                app:srcCompat="@drawable/baseline_access_time_24" />
         </LinearLayout>
 
     </LinearLayout>
@@ -80,6 +79,7 @@
         android:textColorLink="#FF9800"
         android:textStyle="bold"
         app:cornerRadius="10dp"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="#000000"
+        app:titleTextColor="#000000" />
 
     <TextView
         android:id="@+id/textTitleConfig"
@@ -156,7 +158,6 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text="Hora exibida"
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
@@ -166,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#B55F44"
-                app:srcCompat="@android:drawable/ic_menu_recent_history" />
+                app:srcCompat="@drawable/baseline_access_time_24" />
 
         </LinearLayout>
 
