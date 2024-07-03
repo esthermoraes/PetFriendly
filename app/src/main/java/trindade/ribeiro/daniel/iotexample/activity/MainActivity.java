@@ -1,5 +1,7 @@
 package trindade.ribeiro.daniel.iotexample.activity;
 
+import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,156 +11,122 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import trindade.ribeiro.daniel.iotexample.util.Config;
-import trindade.ribeiro.daniel.iotexample.model.MainActivityViewModel;
+import java.util.Calendar;
+
 import trindade.ribeiro.daniel.iotexample.R;
+import trindade.ribeiro.daniel.iotexample.model.MainActivityViewModel;
+import trindade.ribeiro.daniel.iotexample.util.Config;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Guarda o estado do LED
-    boolean ledStatus = false;
+    private TextView tvQuantGramaRes;
+    private TextView textViewHora1, textViewHora2;
+    private Button btnConfirmar;
 
-    // Guarda o estado do motor
-    boolean motorStatus = false;
-
-    // Guarda o viewmodel
-    MainActivityViewModel vm;
+    private String h1, h2, m1, m2, q;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        // setamos a toolbar como a toolbar padrão da app
+        tvQuantGramaRes = findViewById(R.id.tvQuantGramaRes);
+        textViewHora1 = findViewById(R.id.textViewHora1);
+        textViewHora2 = findViewById(R.id.textViewHora2);
+        btnConfirmar = findViewById(R.id.btnConfirmar);
+
         Toolbar toolbar = findViewById(R.id.tbMain);
         setSupportActionBar(toolbar);
 
-        // obtem o viewmodel correspondente. É através do viewmodel que é possível obter os
-        // estados do LED e motor, acioná-los e configurá-los
-        vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
-
-        // realiza consulta ao ESP32 para verificar se o LED está ligado ou desligado
-        updateLedStatus();
-
-        // realiza consulta ao ESP32 para verificar se o motor está ligado ou desligado
-        updateMotorStatus();
-
-        // tratamento do comportando do botão que liga e desliga o LED
-        Button btnLed = findViewById(R.id.btnLed);
-        btnLed.setOnClickListener(new View.OnClickListener() {
+        ImageButton imageButtonHora1 = findViewById(R.id.imageButtonHora1);
+        imageButtonHora1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Quando o botão é clicado, ele é desabilitado. Isso garante que o usuário não
-                // será capaz de clicar várias vezes no botão
-                v.setEnabled(false);
+                // on below line we are getting the
+                // instance of our calendar.
+                final Calendar c = Calendar.getInstance();
 
-                // guarda uma promessa de resposta por parte do ESP32. Assim que o ESP32 responder,
-                // a variável abaixo guarda o resultado da ação: um booleano, onde true indica que
-                // o ESP32 conseguiu realizar a ação e false caso contrário
-                LiveData<Boolean> resLD;
+                // on below line we are getting our hour, minute.
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
 
-                // Se o estado atual do botão está ligado, enviamos uma requisição ao ESP32 para
-                // desligar. Caso contrário, enviamos uma requisição ao ESP32 para ligar
-                if(ledStatus) {
-                    resLD = vm.turnLedOff();
-                }
-                else {
-                    resLD = vm.turnLedOn();
-                }
-
-                // depois de enviar a requisição ao ESP32, nós observamos a variável que resLD.
-                // Assim que o ESP32 responder, o método onChanged abaixo é chamado e entrega a
-                // resposta
-                resLD.observe(MainActivity.this, new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean aBoolean) {
-
-                        // Independente se o ESP32 realizou a ação ou não, fazemos uma requisição
-                        // ao ESP32 para saber o estado atual do LED
-                        updateLedStatus();
-
-                        // reabilitamos novamente o botão que permite ligar/desligar o LED
-                        v.setEnabled(true);
-                    }
-                });
+                // on below line we are initializing our Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                // on below line we are setting selected time
+                                // in our text view.
+                                textViewHora1.setText(hourOfDay + ":" + minute);
+                                h1 = String.valueOf(hourOfDay);
+                                m1 = String.valueOf(minute);
+                            }
+                        }, hour, minute, false);
+                // at last we are calling show to
+                // display our time picker dialog.
+                timePickerDialog.show();
             }
         });
 
-        // tratamento do comportando do botão que liga e desliga o motor
-        Button btnMotor = findViewById(R.id.btnMotor);
-        btnMotor.setOnClickListener(new View.OnClickListener() {
+        ImageButton imageButtonHora2 = findViewById(R.id.imageButtonHora2);
+        imageButtonHora2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Quando o botão é clicado, ele é desabilitado. Isso garante que o usuário não
-                // será capaz de clicar várias vezes no botão
-                v.setEnabled(false);
+                // on below line we are getting the
+                // instance of our calendar.
+                final Calendar c = Calendar.getInstance();
 
-                // guarda uma promessa de resposta por parte do ESP32. Assim que o ESP32 responder,
-                // a variável abaixo guarda o resultado da ação: um booleano, onde true indica que
-                // o ESP32 conseguiu realizar a ação e false caso contrário
-                LiveData<Boolean> resLD;
+                // on below line we are getting our hour, minute.
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
 
-                // Se o estado atual do motor está ligado, enviamos uma requisição ao ESP32 para
-                // desligar. Caso contrário, enviamos uma requisição ao ESP32 para ligar
-                if(motorStatus) {
-                    resLD = vm.turnMotorOff();
-                }
-                else {
-                    resLD = vm.turnMotorOn();
-                }
-
-                // depois de enviar a requisição ao ESP32, nós observamos a variável que resLD.
-                // Assim que o ESP32 responder, o método onChanged abaixo é chamado e entrega a
-                // resposta
-                resLD.observe(MainActivity.this, new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean aBoolean) {
-
-                        // Independente se o ESP32 realizou a ação ou não, fazemos uma requisição
-                        // ao ESP32 para saber o estado atual do LED
-                        updateMotorStatus();
-
-                        // reabilitamos novamente o botão que permite ligar/desligar o motor
-                        v.setEnabled(true);
-                    }
-                });
+                // on below line we are initializing our Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                // on below line we are setting selected time
+                                // in our text view.
+                                textViewHora2.setText(hourOfDay + ":" + minute);
+                                h2 = String.valueOf(hourOfDay);
+                                m2 = String.valueOf(minute);
+                            }
+                        }, hour, minute, false);
+                // at last we are calling show to
+                // display our time picker dialog.
+                timePickerDialog.show();
             }
         });
 
-        // obtem o textview que mostra a velocidade atual do motor
-        TextView tvVelRes = findViewById(R.id.tvVelRes);
+        // obtem o textview que mostra a quant atual do motor
+        TextView tvQuantGramaRes = findViewById(R.id.tvQuantGramaRes);
 
         // obtém o slider de velocidade
-        SeekBar skMotorVelocity = findViewById(R.id.skMotorVelocity);
-        skMotorVelocity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBar skQuantAli = findViewById(R.id.skQuantAli);
+        skQuantAli.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-            // esse método é chamado sempre que o usuário modifica o slider de velocidade. Sempre
+            // esse método é chamado sempre que o usuário modifica o slider de quantidade. Sempre
             // que isso acontece, atualizamos o valor que é mostrado no textview que exibe a
-            // velocidade
+            // quantidade
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvVelRes.setText(String.valueOf(progress));
+                tvQuantGramaRes.setText(String.valueOf(progress));
             }
 
             @Override
@@ -169,15 +137,45 @@ public class MainActivity extends AppCompatActivity {
             // esse método é chamado assim que o usuário para de ajusta o slider
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // obtem o valor atual do slider
-                int newVelocity  = seekBar.getProgress();
+                q = String.valueOf(seekBar.getProgress());
+            }
+        });
 
-                // realiza uma requisição ao ESP32 para ajustar a velocidade do motor usando a
-                // velocidade definida pelo usuário no slider. Observe que aqui a gente não depende
-                // de saber se o motor conseguiu ou não ajustar a velocidade. Então não é
-                // necessário observar o resultado e realizar alguma ação depois que o ESP32 responde
-                vm.setMotorVel(newVelocity);
 
+        // Ação do botão Confirmar
+        btnConfirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(h1.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Preencha a hora da primeira alimentacao!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(h2.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Preencha a hora da primeira alimentacao!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                // obtem o viewmodel correspondente. É através do viewmodel que é possível obter os
+                // estados do LED e motor, acioná-los e configurá-los
+                MainActivityViewModel vm = new ViewModelProvider(MainActivity.this).get(MainActivityViewModel.class);
+                LiveData<Boolean> resultLd = vm.setSchedule("alimentacao", h1, h2, m1, m2, q);
+                resultLd.observe(MainActivity.this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if(aBoolean) {
+                            Toast.makeText(MainActivity.this, "Comedouro atualizado", Toast.LENGTH_SHORT).show();
+                            String atualizar = "ok";
+                            System.out.print(atualizar);
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Comedouro não atualizado", Toast.LENGTH_SHORT).show();
+                        }
+                        return;
+                    }
+                });
             }
         });
     }
@@ -240,82 +238,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        // caso o usuário clique na ação de atualizar, realizamos requisições ao ESP32 para
-        // obter o estado atual do LED e motor
-        if (item.getItemId() == R.id.opUpdate) {
-            updateLedStatus();
-            updateMotorStatus();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
-
-    // realiza uma requisição ao ESP32 para verificar se o LED está ligado ou não
-    void updateLedStatus() {
-
-        // obtém o textview que exibe o status do LED
-        TextView tvLedStatusRes = findViewById(R.id.tvLedStatusRes);
-
-        // obtém o button que permite ligar/desligar o LED
-        Button btnLed = findViewById(R.id.btnLed);
-
-        // envia uma requisição ao ESP32 para saber se o LED está ligado ou desligado
-        LiveData<Boolean> ledStatusLD = vm.getLedStatus();
-
-        // observa ledStatusLD. Assim que o ESP32 responder, o resultado vai aparecer em ledStatusLD
-        ledStatusLD.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                // guarda o estado atual do LED
-                ledStatus = aBoolean;
-
-                // se o LED está ligado, mudamos o valor de tvLedStatusRes para ligado e mudamos
-                // também o texto que aparece no botão para desligar
-                if(aBoolean) {
-                    tvLedStatusRes.setText("Ligado");
-                    btnLed.setText("Desligar");
-                }
-                // se o LED está desligado, mudamos o valor de tvLedStatusRes para desligado e mudamos
-                // também o texto que aparece no botão para ligar
-                else {
-                    tvLedStatusRes.setText("Desligado");
-                    btnLed.setText("Ligar");
-                }
-            }
-        });
-    }
-
-    void updateMotorStatus() {
-
-        // obtém o textview que exibe o status do motor
-        TextView tvMotorStatusRes = findViewById(R.id.tvMotorStatusRes);
-
-        // obtém o button que permite ligar/desligar o motor
-        Button btnMotor = findViewById(R.id.btnMotor);
-
-        // envia uma requisição ao ESP32 para saber se o motor está ligado ou desligado
-        LiveData<Boolean> motorStatusLD = vm.getMotorStatus();
-
-        // observa motorStatusLD. Assim que o ESP32 responder, o resultado vai aparecer em motorStatusLD
-        motorStatusLD.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                // guarda o estado atual do motor
-                motorStatus = aBoolean;
-
-                // se o motor está ligado, mudamos o valor de tvMotorStatusRes para ligado e mudamos
-                // também o texto que aparece no botão para desligar
-                if(aBoolean) {
-                    tvMotorStatusRes.setText("Ligado");
-                    btnMotor.setText("Desligar");
-                }
-                // se o motor está desligado, mudamos o valor de tvMotorStatusRes para desligado e mudamos
-                // também o texto que aparece no botão para ligar
-                else {
-                    tvMotorStatusRes.setText("Desligado");
-                    btnMotor.setText("Ligar");
-                }
-            }
-        });
-    }
 }
+
+

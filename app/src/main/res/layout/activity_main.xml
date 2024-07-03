@@ -5,11 +5,120 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#efdcc3"
     tools:context=".activity.MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/painel_bg"
+        android:foregroundTint="#B55F44"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleConfig">
+
+        <TextView
+            android:id="@+id/tpHoraAlimentacao1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="Defina o horário da 1° alimentação:"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewHora1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text=" Hora exibida"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/imageButtonHora1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#B55F44"
+                app:srcCompat="@android:drawable/ic_menu_recent_history" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConfirmar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#B55F44"
+        android:shadowColor="#FBB44B"
+        android:text="ATUALIZAR"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FF5722"
+        android:textColorHint="#FF5722"
+        android:textColorLink="#FF9800"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#FBB44B"
+        app:strokeColor="#FF5722" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbMain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:backgroundTint="#B55F44"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textTitleConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-thin"
+        android:foregroundTint="#FFFFFF"
+        android:text="Configure o comedouro do seu pet"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbMain" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -21,47 +130,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <TextView
-            android:id="@+id/tvLedTitle"
+            android:id="@+id/tpHoraAlimentacao2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-thin"
             android:gravity="center"
-            android:text="Luz de Led"
+            android:text="Defina o horário da 2° alimentação:"
+            android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnLed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ligar" />
-
         <LinearLayout
+            android:id="@+id/linearLayout31"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvLedStatus"
+                android:id="@+id/textViewHora2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text="Status" />
+                android:text="Hora exibida"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tvLedStatusRes"
+            <ImageButton
+                android:id="@+id/imageButtonHora2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Obtendo Status do LED" />
+                android:backgroundTint="#B55F44"
+                app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout21"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -73,109 +185,60 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:id="@+id/tvMotorTitle"
+            android:id="@+id/etQuantidadeAlimentacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-thin"
             android:gravity="center"
-            android:text="Motor"
+            android:text="Defina a quantidade de alimento:"
+            android:textColor="#000000"
+            android:textColorLink="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnMotor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ligar" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/tvMotorStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Status" />
-
-            <TextView
-                android:id="@+id/tvMotorStatusRes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Obtendo Status do Motor" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvVelocityTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Ajustar Velocidade do Motor"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
         <SeekBar
-            android:id="@+id/skMotorVelocity"
+            android:id="@+id/skQuantAli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100" />
+            android:max="1000"
+            android:progressBackgroundTint="#B55F44"
+            android:progressTint="#B55F44"
+            android:secondaryProgressTint="#B55F44"
+            android:thumbTint="#B55F44" />
 
         <LinearLayout
+            android:id="@+id/linearLayout211"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/tvVel"
+                android:id="@+id/tvQuantGrama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text="Velocidade" />
+                android:text="Quantidade (gramas)"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tvVelRes"
+                android:id="@+id/tvQuantGramaRes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="sans-serif-black"
                 android:gravity="center"
-                android:text="0" />
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbMain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Controle de Dispositos"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbMain" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
