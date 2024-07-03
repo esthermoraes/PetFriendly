@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:gravity="center"
-            android:text="Defina o horário da 1° alimentação:"
+            android:text="Defina o horário da 1° alimentaçãooo:"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
