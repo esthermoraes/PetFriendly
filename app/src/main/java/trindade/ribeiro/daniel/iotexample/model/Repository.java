@@ -20,7 +20,25 @@ public class Repository {
     public boolean setQuantidade(String h1, String h2, String m1, String m2, String q) {
 
         // Cria uma requisição HTTP a ser enviada ao ESP32
-        HttpRequest httpRequest = new HttpRequest("http://" + Config.getESP32Address(context) + h1 + "/" + m1 + "/" + h2 + "/" + m2 + "/" + q, "GET", "UTF-8");
+        if(h1.length()==1){
+            h1 = "0"+h1;
+        }
+        if(h2.length()==1){
+            h2 = "0"+h2;
+        }
+        if(m1.length()==1){
+            m1 = "0"+m1;
+        }
+        if(m2.length()==1){
+            m2 = "0"+m2;
+        }
+        if(q.length()==1){
+            q = "0"+q;
+        }
+        if(q.length()==2){
+            q = "0"+q;
+        }
+        HttpRequest httpRequest = new HttpRequest("http://" + Config.getESP32Address(context) + "/" + h1  + m1 + h2 + m2 + q + "?register", "GET", "UTF-8");
 
         String result = "";
         try {
@@ -39,7 +57,7 @@ public class Repository {
             httpRequest.finish();
 
             // Se result igual a 1, significa que o usuário foi registrado com sucesso.
-            if(result.equals("1")) {
+            if(result.equals("1\n")) {
                 return true;
             }
         } catch (IOException e) {
