@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
                 MainActivityViewModel vm = new ViewModelProvider(MainActivity.this).get(MainActivityViewModel.class);
                 LiveData<Boolean> resultLd = vm.setSchedule(h1, h2, m1, m2, q);
+                //System.out.print(resultLd);
+
                 resultLd.observe(MainActivity.this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(Boolean aBoolean) {
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
                     String esp32Address = etESP32Address.getText().toString();
                     Config.setESP32Address(MainActivity.this, esp32Address);
+
                 }
             });
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
